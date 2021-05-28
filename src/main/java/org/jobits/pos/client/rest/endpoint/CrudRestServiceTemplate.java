@@ -8,6 +8,7 @@ package org.jobits.pos.client.rest.endpoint;
 import com.root101.clean.core.app.usecase.CRUDUseCase;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import org.jobits.pos.client.rest.assembler.CrudModelAssembler;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -29,7 +30,7 @@ public class CrudRestServiceTemplate<T> {
     protected CRUDUseCase<T> uc;
     protected RepresentationModelAssembler<T, EntityModel<T>> assembler;
 
-    public CrudRestServiceTemplate(CRUDUseCase<T> uc, RepresentationModelAssembler<T, EntityModel<T>> assembler) {
+    public CrudRestServiceTemplate(CRUDUseCase<T> uc, CrudModelAssembler<T> assembler) {
         this.uc = uc;
         this.assembler = assembler;
     }
