@@ -25,49 +25,48 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @param <T>
  *
  */
-public class CrudRestServiceTemplate<T> {
+public abstract class CrudRestServiceTemplate<T> {
 
-    protected CRUDUseCase<T> uc;
-    protected RepresentationModelAssembler<T, EntityModel<T>> assembler;
-
-    public CrudRestServiceTemplate(CRUDUseCase<T> uc, CrudModelAssembler<T> assembler) {
-        this.uc = uc;
-        this.assembler = assembler;
+    public CrudRestServiceTemplate() {
     }
+
+    public abstract CRUDUseCase<T> getUc();
+
+    public abstract CrudModelAssembler<T> getAssembler();
 
     @PostMapping(path = UrlTemplate.CREATE_PATH)
     public EntityModel<T> create(@RequestBody T t) throws RuntimeException {
-        return assembler.toModel(uc.create(t));
+        return getAssembler().toModel(getUc().create(t));
     }
 
     @PostMapping(UrlTemplate.EDIT_PATH)
     public EntityModel<T> edit(@RequestBody T t) throws RuntimeException {
-        return assembler.toModel(uc.edit(t));
+        return getAssembler().toModel(getUc().edit(t));
     }
 
     @PostMapping(UrlTemplate.DESTROY_PATH)
     public EntityModel<T> destroy(@RequestBody T t) throws RuntimeException {
-        return assembler.toModel(uc.destroy(t));
+        return getAssembler().toModel(getUc().destroy(t));
     }
 
     @PostMapping(UrlTemplate.DESTROY_ID_PATH)
     public EntityModel<T> destroyById(@RequestBody Object id) throws RuntimeException {
-        return assembler.toModel(uc.destroyById(id));
+        return getAssembler().toModel(getUc().destroyById(id));
     }
 
     @GetMapping(UrlTemplate.FIND_ALL_PATH)
     public CollectionModel<EntityModel<T>> findAll() throws RuntimeException {
-        return assembler.toCollectionModel(uc.findAll());
+        return getAssembler().toCollectionModel(getUc().findAll());
     }
 
     @GetMapping(UrlTemplate.FIND_BY_PATH)
     public EntityModel<T> findBy(@PathVariable(UrlTemplate.ID) Object id) throws RuntimeException {
-        return assembler.toModel(uc.findBy(Integer.parseInt(id.toString())));
+        return getAssembler().toModel(getUc().findBy(Integer.parseInt(id.toString())));
     }
 
     @GetMapping(UrlTemplate.COUNT_PATH)
     public int count() throws RuntimeException {
-        return uc.count();
+        return getUc().count();
     }
 
 }
