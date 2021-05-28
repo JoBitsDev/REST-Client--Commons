@@ -2,5 +2,13 @@ apply plugin: 'java'
 apply plugin: 'maven-publish'
 
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
 description = 'JoBits POS REST:Commons'
 group = 'org.jobits.pos.client.rest'
