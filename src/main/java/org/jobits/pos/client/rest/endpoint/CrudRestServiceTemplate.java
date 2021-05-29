@@ -47,7 +47,7 @@ public abstract class CrudRestServiceTemplate<T> {
     }
 
     @PostMapping(UrlTemplate.DESTROY_ID_PATH)
-    public EntityModel<T> destroyById(@RequestBody Object id) throws RuntimeException {
+    public EntityModel<T> destroyById(@PathVariable(UrlTemplate.ID) Object id) throws RuntimeException {
         return getAssembler().toModel(getUc().destroyById(id));
     }
 
