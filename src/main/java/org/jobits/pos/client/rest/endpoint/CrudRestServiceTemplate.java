@@ -58,7 +58,7 @@ public abstract class CrudRestServiceTemplate<T> {
 
     @GetMapping(UrlTemplate.FIND_BY_PATH)
     public EntityModel<T> findBy(@PathVariable(UrlTemplate.ID) Object id) throws RuntimeException {
-        return getAssembler().toModel(getUc().findBy(Integer.parseInt(id.toString())));
+        return getAssembler().toModel(getUc().findBy(id));
     }
 
     @GetMapping(UrlTemplate.COUNT_PATH)
