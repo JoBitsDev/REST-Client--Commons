@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class UrlTemplate {
     
     public static final String ID = "id";
+    public static final String INDEX_PATH = "/";
 
     public static final String CREATE_PATH = "/create";
     public static final RequestMethod CREATE_METHOD = RequestMethod.POST;

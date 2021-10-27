@@ -6,15 +6,14 @@
 package org.jobits.pos.client.rest.endpoint;
 
 import com.root101.clean.core.app.usecase.CRUDUseCase;
-import java.beans.PropertyChangeListener;
-import java.util.List;
 import org.jobits.pos.client.rest.assembler.CrudModelAssembler;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -25,9 +24,10 @@ import org.springframework.web.bind.annotation.RequestBody;
  * @param <T>
  *
  */
-public abstract class CrudRestServiceTemplate<T> {
+public abstract class CrudRestServiceTemplate<T> extends DefaultEndpoint {
 
     public CrudRestServiceTemplate() {
+        super();
     }
 
     public abstract CRUDUseCase<T> getUc();
@@ -39,18 +39,19 @@ public abstract class CrudRestServiceTemplate<T> {
         return getAssembler().toModel(getUc().create(t));
     }
 
-    @PostMapping(UrlTemplate.EDIT_PATH)
+    @PutMapping(UrlTemplate.EDIT_PATH)
     public EntityModel<T> edit(@RequestBody T t) throws RuntimeException {
         return getAssembler().toModel(getUc().edit(t));
     }
 
-    @PostMapping(UrlTemplate.DESTROY_PATH)
+    @DeleteMapping(UrlTemplate.DESTROY_PATH)
     public EntityModel<T> destroy(@RequestBody T t) throws RuntimeException {
         return getAssembler().toModel(getUc().destroy(t));
     }
 
-    @PostMapping(UrlTemplate.DESTROY_ID_PATH)
-    public EntityModel<T> destroyById(@RequestBody Object id) throws RuntimeException {
+    @DeleteMapping(UrlTemplate.DESTROY_ID_PATH)
+    public EntityModel<T> destroyById(@PathVariable(UrlTemplate.ID) Object id)
+            throws RuntimeException {
         return getAssembler().toModel(getUc().destroyById(id));
     }
 
@@ -61,7 +62,7 @@ public abstract class CrudRestServiceTemplate<T> {
 
     @GetMapping(UrlTemplate.FIND_BY_PATH)
     public EntityModel<T> findBy(@PathVariable(UrlTemplate.ID) Object id) throws RuntimeException {
-        return getAssembler().toModel(getUc().findBy(Integer.parseInt(id.toString())));
+        return getAssembler().toModel(getUc().findBy(id));
     }
 
     @GetMapping(UrlTemplate.COUNT_PATH)

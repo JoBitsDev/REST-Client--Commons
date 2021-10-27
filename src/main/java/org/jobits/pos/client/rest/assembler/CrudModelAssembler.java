@@ -30,7 +30,6 @@ public abstract class CrudModelAssembler<T> implements RepresentationModelAssemb
     @Override
     public EntityModel<T> toModel(T entity) {
         return EntityModel.of(entity,
-                linkTo(methodOn(serviceClass).count()).withRel("count"),
                 linkTo(methodOn(serviceClass).findAll()).withRel("list"),
                 linkTo(methodOn(serviceClass).create(entity)).withRel("create"),
                 linkTo(methodOn(serviceClass).destroy(entity)).withRel("destroy"),
